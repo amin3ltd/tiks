@@ -1,0 +1,24 @@
+{% extends "pretixcontrol/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% block title %}{% trans "Add organizer" %}{% endblock %}
+{% block content %}
+	<h1>{% trans "Add organizer" %}</h1>
+    <p class="text-muted">
+        {% trans "This is the public page for your events. Add a name and a short link." %}
+    </p>
+    <form action="" method="post" class="form-horizontal">
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        <div class="settings-section">
+            <h2>{% trans "Basics" %}</h2>
+            {% bootstrap_field form.name layout="horizontal" %}
+            {% bootstrap_field form.slug layout="horizontal" %}
+        </div>
+        <div class="form-group submit-group">
+            <button type="submit" class="btn btn-primary btn-save">
+                {% trans "Add organizer" %}
+            </button>
+        </div>
+    </form>
+{% endblock %}

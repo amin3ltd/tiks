@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tiks Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <a href="#start" class="brand">
+            <span class="brand-mark">t</span>
+            <span>
+                <strong>tiks Documentation</strong>
+                <small id="role-kicker">Role based guide</small>
+            </span>
+        </a>
+        <nav class="role-nav" aria-label="Documentation role navigation">
+            <a href="?role=customer" data-role-link="customer">Customer</a>
+            <a href="?role=organizer" data-role-link="organizer">Organizer</a>
+            <a href="?role=staff" data-role-link="staff">Event staff</a>
+            <a href="?role=checkin" data-role-link="checkin">Check-in</a>
+            <a href="?role=admin" data-role-link="admin">Admin</a>
+            <a href="?role=all" data-role-link="all">All guides</a>
+        </nav>
+    </header>
+
+    <main id="start">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">Plain language operating manual</p>
+                <h1 id="hero-title">Learn tiks one role at a time</h1>
+                <p id="hero-copy">
+                    This guide explains what each person needs to do, where they should click, and what to check before an event goes live.
+                </p>
+                <div class="quick-actions">
+                    <a class="button primary" href="#daily-work">Start the guide</a>
+                    <a class="button" href="#run-system">Run the system</a>
+                </div>
+            </div>
+            <figure class="hero-shot">
+                <img src="screenshots/organizer-event-created.png" alt="tiks organizer event setup screen">
+                <figcaption>Real tiks screen captured from the current system.</figcaption>
+            </figure>
+        </section>
+
+        <section class="section" id="choose-role" data-role="all">
+            <div class="section-heading">
+                <p class="eyebrow">Choose your job</p>
+                <h2>Only read the guide for what you are allowed to do</h2>
+                <p>Use the role links above. A customer sees buying help, an organizer sees event setup help, and an administrator sees system setup help.</p>
+            </div>
+            <div class="role-grid">
+                <a class="role-card" href="?role=customer">
+                    <span class="role-icon">01</span>
+                    <h3>Customer</h3>
+                    <p>Buy tickets, pay, find an order, and bring the ticket to the event.</p>
+                </a>
+                <a class="role-card" href="?role=organizer">
+                    <span class="role-icon">02</span>
+                    <h3>Organizer</h3>
+                    <p>Create events, tickets, quotas, teams, public pages, and reports.</p>
+                </a>
+                <a class="role-card" href="?role=staff">
+                    <span class="role-icon">03</span>
+                    <h3>Event staff</h3>
+                    <p>Manage orders, answer customer questions, and keep one event running.</p>
+                </a>
+                <a class="role-card" href="?role=checkin">
+                    <span class="role-icon">04</span>
+                    <h3>Check-in staff</h3>
+                    <p>Use devices and check-in lists to scan tickets at the entrance.</p>
+                </a>
+                <a class="role-card" href="?role=admin">
+                    <span class="role-icon">05</span>
+                    <h3>System administrator</h3>
+                    <p>Install tiks, create admins, configure mail, and maintain the server.</p>
+                </a>
+            </div>
+        </section>
+
+        <section class="section" id="run-system" data-role="admin organizer staff">
+            <div class="section-heading">
+                <p class="eyebrow">Running tiks</p>
+                <h2>Start the system locally</h2>
+                <p>This is the shortest working path for a non-technical person helping with setup on a local machine.</p>
+            </div>
+            <div class="command-list">
+                <div>
+                    <strong>Install with defaults</strong>
+                    <code>./install.sh</code>
+                    <p>Creates the local environment, uses SQLite, writes config, and runs the database setup.</p>
+                </div>
+                <div>
+                    <strong>Start the web server</strong>
+                    <code>make run-local</code>
+                    <p>Starts tiks at <span class="mono">http://localhost:8000/control/</span>.</p>
+                </div>
+                <div>
+                    <strong>Create the first admin</strong>
+                    <code>make createsuperuser-local</code>
+                    <p>Creates the account that can log in and create organizers.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section role-section" id="daily-work" data-role="customer">
+            <div class="section-heading">
+                <p class="eyebrow">Customer guide</p>
+                <h2>Buy and use a ticket</h2>
+                <p>Customers do not need the control panel. They only use the public event page, checkout, email, and order lookup.</p>
+            </div>
+            <div class="workflow">
+                <article class="step">
+                    <span>1</span>
+                    <div>
+                        <h3>Open the public event page</h3>
+                        <p>Use the event link sent by the organizer. Read the event date, location, and ticket descriptions before choosing a ticket.</p>
+                        <figure><img src="screenshots/customer-event-page.png" alt="Public tiks event page"><figcaption>Public event page customers see first.</figcaption></figure>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>2</span>
+                    <div>
+                        <h3>Choose ticket quantity</h3>
+                        <p>Use the plus and minus controls beside each ticket. If a ticket is unavailable, check whether another category or date is open.</p>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>3</span>
+                    <div>
+                        <h3>Enter attendee and payment details</h3>
+                        <p>Fill in required fields carefully. The email address is important because tiks sends the order confirmation and ticket there.</p>
+                        <figure><img src="screenshots/customer-checkout.png" alt="Customer checkout flow"><figcaption>Checkout and confirmation flow from the current system.</figcaption></figure>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>4</span>
+                    <div>
+                        <h3>Bring the ticket</h3>
+                        <p>Bring the QR code on a phone or as a printed ticket. At the entrance, check-in staff scan it once.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section role-section" data-role="organizer">
+            <div class="section-heading">
+                <p class="eyebrow">Organizer guide</p>
+                <h2>Create and publish events</h2>
+                <p>Organizers control the event setup, ticket products, teams, public pages, and sales reports for their organization.</p>
+            </div>
+            <div class="workflow">
+                <article class="step">
+                    <span>1</span>
+                    <div>
+                        <h3>Create the event foundation</h3>
+                        <p>From the control panel, create an organizer if needed, then add an event name, slug, date, timezone, and currency.</p>
+                        <figure><img src="screenshots/organizer-event-created.png" alt="Organizer event creation screen"><figcaption>Organizer event creation captured from tiks.</figcaption></figure>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>2</span>
+                    <div>
+                        <h3>Add ticket products and quotas</h3>
+                        <p>A product is what the customer buys. A quota is the limit that prevents overselling. Always attach every ticket product to a quota.</p>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>3</span>
+                    <div>
+                        <h3>Configure payments and email</h3>
+                        <p>Make sure customers can pay and receive confirmation emails. For a test event, place a small test order before publishing.</p>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>4</span>
+                    <div>
+                        <h3>Publish the event</h3>
+                        <p>Review the public page, test checkout, check ticket limits, then take the shop live and share the event link.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section role-section" data-role="staff">
+            <div class="section-heading">
+                <p class="eyebrow">Event staff guide</p>
+                <h2>Help customers and manage orders</h2>
+                <p>Event staff usually work inside one event. They should see only the organizer or event areas they are assigned to.</p>
+            </div>
+            <div class="checklist">
+                <div><strong>Find an order</strong><p>Use the order list and search by customer name, email, or order code.</p></div>
+                <div><strong>Change an order</strong><p>Use order detail actions for refunds, resend emails, attendee changes, or cancellations if your permissions allow it.</p></div>
+                <div><strong>Watch sales</strong><p>Review dashboard numbers and quota usage before sending customers to buy more tickets.</p></div>
+                <div><strong>Escalate carefully</strong><p>If payment, tax, or access rules are unclear, ask the organizer or administrator before changing settings.</p></div>
+            </div>
+        </section>
+
+        <section class="section role-section" data-role="checkin">
+            <div class="section-heading">
+                <p class="eyebrow">Check-in guide</p>
+                <h2>Scan tickets at the entrance</h2>
+                <p>Check-in staff need clear lists, connected devices, and a simple rule: scan each valid ticket once.</p>
+            </div>
+            <div class="workflow">
+                <article class="step">
+                    <span>1</span>
+                    <div>
+                        <h3>Create or choose the check-in list</h3>
+                        <p>The organizer prepares the list. Use the correct list for the event entrance, date, or gate.</p>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>2</span>
+                    <div>
+                        <h3>Connect devices</h3>
+                        <p>Use the device page to connect scanner devices and assign them to the right organizer or event.</p>
+                        <figure><img src="screenshots/checkin-devices.png" alt="Check-in device management pages"><figcaption>Device and check-in pages captured from tiks.</figcaption></figure>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>3</span>
+                    <div>
+                        <h3>Handle scan results</h3>
+                        <p>Green means allow entry. A duplicate, blocked, or unknown result means stop and ask the entrance lead to review the order.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section role-section" data-role="admin">
+            <div class="section-heading">
+                <p class="eyebrow">Administrator guide</p>
+                <h2>Install, secure, and maintain tiks</h2>
+                <p>Administrators manage the full installation. This guide is not shown from customer pages.</p>
+            </div>
+            <div class="workflow">
+                <article class="step">
+                    <span>1</span>
+                    <div>
+                        <h3>Log in to the control panel</h3>
+                        <p>Use the first admin account created during setup. Keep this account protected and do not share it with event staff.</p>
+                        <figure><img src="screenshots/admin-login.png" alt="tiks admin login page"><figcaption>Admin login screen from the current system.</figcaption></figure>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>2</span>
+                    <div>
+                        <h3>Configure the installation</h3>
+                        <p>Set the public URL, email sending, database, timezone, and HTTPS reverse proxy before real ticket sales.</p>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>3</span>
+                    <div>
+                        <h3>Create organizers and teams</h3>
+                        <p>Give each organizer only the permissions they need. Use teams for event staff and check-in workers.</p>
+                    </div>
+                </article>
+                <article class="step">
+                    <span>4</span>
+                    <div>
+                        <h3>Operate safely</h3>
+                        <p>Back up the database and media files, monitor logs, keep dependencies updated, and test email/payment flows after changes.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" data-role="admin organizer staff checkin">
+            <div class="section-heading">
+                <p class="eyebrow">Before going live</p>
+                <h2>Final checklist</h2>
+            </div>
+            <div class="checklist">
+                <div><strong>Public page checked</strong><p>Event name, date, location, and ticket text are correct.</p></div>
+                <div><strong>Test order completed</strong><p>A complete order can be created and the confirmation email arrives.</p></div>
+                <div><strong>Quota checked</strong><p>Every product has a quota and the numbers match the venue plan.</p></div>
+                <div><strong>Check-in ready</strong><p>Lists and devices are prepared before customers arrive.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="doc-footer">
+        <p>tiks documentation is role-specific. Use the Documentation button inside tiks to open the right guide for your account.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

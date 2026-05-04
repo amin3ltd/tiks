@@ -1,0 +1,51 @@
+name: tiks
+
+services:
+  web:
+    build: .
+    image: tiks:local
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      - tiks-data:/data
+      - ./deployment/docker/tiks.cfg:/etc/pretix/pretix.cfg:ro
+    environment:
+      AUTOMIGRATE: "yes"
+    restart: unless-stopped
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: tiks
+      POSTGRES_USER: tiks
+      POSTGRES_PASSWORD: tiks
+    volumes:
+      - tiks-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tiks -d tiks"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - tiks-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  tiks-data:
+  tiks-db:
+  tiks-redis:

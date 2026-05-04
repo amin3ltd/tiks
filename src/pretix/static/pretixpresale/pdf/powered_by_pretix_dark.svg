@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 180" role="img" aria-label="ticketing powered by tiks">
+  <text x="28" y="54" font-family="Inter, Arial, Helvetica, sans-serif" font-size="28" font-weight="600" fill="#492267">ticketing powered by</text>
+  <path fill="#492267" d="M30 78c0-7.7 6.3-14 14-14h318c7.7 0 14 6.3 14 14v22c-13.8 0-25 11.2-25 25s11.2 25 25 25v2c0 7.7-6.3 14-14 14H44c-7.7 0-14-6.3-14-14v-2c13.8 0 25-11.2 25-25s-11.2-25-25-25V78z"/>
+  <path fill="none" stroke="#faf8fc" stroke-width="6" stroke-linecap="round" stroke-dasharray="10 14" d="M145 72v88"/>
+  <text x="168" y="140" font-family="Inter, Arial, Helvetica, sans-serif" font-size="58" font-weight="800" fill="#faf8fc">tiks</text>
+</svg>

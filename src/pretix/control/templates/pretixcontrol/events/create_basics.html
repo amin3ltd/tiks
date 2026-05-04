@@ -1,0 +1,66 @@
+{% extends "pretixcontrol/events/create_base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% load static %}
+{% block form %}
+    <fieldset>
+        <legend>{% trans "Basic info" %}</legend>
+        {% bootstrap_field form.name layout="control" %}
+        <div class="form-group{% if form.slug.errors %} has-error{% endif %}">
+            <label class="col-md-3 control-label" for="{{ form.slug.id_for_label }}">{{ form.slug.label }}</label>
+            <div class="col-md-9 form-inline">
+                <button class="btn btn-default pull-right flip" type="button" id="event-slug-random-generate"
+                        data-rng-url="{% url "control:events.add.slugrng" organizer=organizer.slug %}">
+                    {% trans "Set to random" %}
+                </button>
+                {% bootstrap_field form.slug form_group_class="helper-display-inline" show_label=False layout="inline" %}
+                {% for error in form.slug.errors %}
+                    <div class="help-block">{{ error }}</div>
+                {% endfor %}
+                <div class="help-block">
+                    {% blocktrans trimmed %}
+                        This is used in your ticket shop link. Keep it short.
+                    {% endblocktrans %}
+                </div>
+                <div class="slug-length alert alert-warning helper-display-none-soft">
+                    {% blocktrans trimmed %}
+                        Use 16 letters or fewer if you can.
+                    {% endblocktrans %}
+                </div>
+            </div>
+        </div>
+        {% bootstrap_field form.date_from layout="control" %}
+        {% if form.date_to %}
+            {% bootstrap_field form.date_to layout="control" %}
+        {% endif %}
+        {% include "pretixcontrol/event/fragment_geodata.html" %}
+    </fieldset>
+
+    <details class="settings-section event-setup-advanced">
+        <summary>
+            <h2>{% trans "Money, tax, and language" %}</h2>
+            <span>{% trans "These are set for Ethiopia. Change them only if you need to." %}</span>
+        </summary>
+        {% bootstrap_field form.currency layout="control" %}
+        {% bootstrap_field form.no_taxes layout="control" %}
+        <div data-display-dependency="#{{ form.no_taxes.id_for_label }}" data-inverse>
+            {% bootstrap_field form.tax_rate addon_after="%" layout="control" %}
+        </div>
+        {% bootstrap_field form.locale layout="control" %}
+        {% bootstrap_field form.timezone layout="control" %}
+    </details>
+    {% if form.presale_start %}
+        <fieldset>
+            <legend>{% trans "Sale time" %}</legend>
+            {% bootstrap_field form.presale_start layout="control" %}
+            {% bootstrap_field form.presale_end layout="control" %}
+        </fieldset>
+    {% endif %}
+
+    {% if form.team %}
+        <fieldset>
+            <legend>{% trans "Team" %}</legend>
+            {%  bootstrap_field form.team layout="control" %}
+        </fieldset>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,65 @@
+name: tiks-production
+
+services:
+  proxy:
+    image: caddy:2-alpine
+    depends_on:
+      - web
+    env_file:
+      - ${TIKS_ENV_FILE:-.env.production.example}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deployment/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    restart: unless-stopped
+
+  web:
+    build: .
+    image: tiks:production
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - ${TIKS_ENV_FILE:-.env.production.example}
+    volumes:
+      - tiks-data:/data
+    environment:
+      AUTOMIGRATE: "yes"
+    restart: unless-stopped
+
+  db:
+    image: postgres:17-alpine
+    env_file:
+      - ${TIKS_ENV_FILE:-.env.production.example}
+    volumes:
+      - tiks-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - tiks-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  tiks-data:
+  tiks-db:
+  tiks-redis:
+  caddy-data:
+  caddy-config:

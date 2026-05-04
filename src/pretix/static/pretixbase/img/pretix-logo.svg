@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 140" role="img" aria-label="tiks">
+  <path fill="#492267" d="M16 28c0-6.6 5.4-12 12-12h200c6.6 0 12 5.4 12 12v25c-12.5 0-22.5 10-22.5 22.5S227.5 98 240 98v14c0 6.6-5.4 12-12 12H28c-6.6 0-12-5.4-12-12V98c12.5 0 22.5-10 22.5-22.5S28.5 53 16 53V28z"/>
+  <path fill="none" stroke="#faf8fc" stroke-width="5" stroke-linecap="round" stroke-dasharray="10 13" d="M88 27v96" opacity=".95"/>
+  <text x="107" y="88" font-family="Inter, Arial, Helvetica, sans-serif" font-size="52" font-weight="800" letter-spacing="0" fill="#faf8fc">tiks</text>
+</svg>

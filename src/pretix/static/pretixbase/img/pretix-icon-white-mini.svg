@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="tiks">
+  <rect width="128" height="128" rx="26" fill="#faf8fc"/>
+  <path fill="none" stroke="#492267" stroke-width="7" stroke-linecap="round" stroke-dasharray="10 13" d="M42 22v84" opacity=".95"/>
+  <text x="57" y="79" font-family="Inter, Arial, Helvetica, sans-serif" font-size="34" font-weight="800" letter-spacing="0" fill="#492267">tk</text>
+</svg>

@@ -1,0 +1,8 @@
+{
+	email {$TIKS_CADDY_EMAIL}
+}
+
+{$TIKS_DOMAIN} {
+	encode gzip zstd
+	reverse_proxy web:80
+}

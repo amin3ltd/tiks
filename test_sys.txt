@@ -1,0 +1,159 @@
+You are a senior QA automation engineer.
+
+Create a complete end-to-end browser testing script for a local pretix installation.
+
+Goal:
+Test all important pretix workflows by simulating real browser behavior for:
+1. Platform admin
+2. Organizer
+3. Event manager/staff
+4. Customer/buyer
+5. Check-in staff
+
+Use Playwright with Python.
+
+Target app:
+- Base URL: http://localhost:8000
+- Browser: Chromium
+- Run headless: false by default
+- Use robust selectors where possible
+- Add screenshots on failure
+- Add clear logs for each step
+- Use reusable helper functions
+- Use realistic test data
+- Do not assume exact CSS classes unless necessary
+- Prefer text/role-based selectors
+
+Workflows to test:
+
+ADMIN WORKFLOWS:
+1. Admin login
+2. Admin dashboard loads
+3. Create or verify organizer exists
+4. Configure basic site/event settings if available
+5. Verify admin can access organizer/event overview
+
+ORGANIZER WORKFLOWS:
+1. Organizer login
+2. Create a new event
+3. Set event name, slug, date, timezone, location
+4. Create ticket products:
+   - Regular ticket
+   - VIP ticket
+   - Free ticket
+5. Set price, quota, availability, and sale dates
+6. Publish/activate event
+7. Open public event page
+8. Verify event is visible
+
+CUSTOMER WORKFLOWS:
+1. Open public event page
+2. Select ticket quantity
+3. Start checkout
+4. Fill buyer information
+5. Choose payment method:
+   - Free order if available
+   - Manual payment/bank transfer if available
+6. Complete order
+7. Verify order confirmation page
+8. Verify ticket/QR/PDF download is available
+9. Save order code/reference for later checks
+
+ORDER MANAGEMENT WORKFLOWS:
+1. Organizer opens orders page
+2. Search order by buyer name/email/order code
+3. Verify order status
+4. Mark manual payment as paid if needed
+5. Resend ticket email if available
+6. Download attendee/order export if available
+
+CHECK-IN WORKFLOWS:
+1. Organizer creates or verifies check-in list
+2. Open check-in page/app if available
+3. Search attendee/order
+4. Mark ticket as checked in
+5. Verify duplicate check-in is blocked or warned
+6. Verify attendance count updates
+
+NEGATIVE TESTS:
+1. Try checkout with missing required fields
+2. Try invalid email
+3. Try buying more tickets than quota
+4. Try accessing organizer/admin page while logged out
+5. Try duplicate check-in
+
+NON-FUNCTIONAL CHECKS:
+1. Verify pages load without server errors
+2. Verify no obvious 500/403 unexpected pages
+3. Verify main customer flow works on mobile viewport
+4. Verify important pages have expected text
+
+Output requirements:
+- Provide a complete runnable Python Playwright test file: test_pretix_e2e.py
+- Provide installation commands:
+  pip install pytest playwright
+  playwright install
+- Provide run command:
+  pytest test_pretix_e2e.py -s
+- Use environment variables for credentials:
+  PRETIX_BASE_URL
+  PRETIX_ADMIN_EMAIL
+  PRETIX_ADMIN_PASSWORD
+  PRETIX_ORG_EMAIL
+  PRETIX_ORG_PASSWORD
+- If exact pretix UI selectors are uncertain, write helper functions that try multiple selector strategies.
+- Include comments explaining where I may need to adjust selectors.
+- Make the script defensive: if one optional feature is missing, log it and continue where reasonable.
+- Do not use mock browser logic. Use real Playwright browser automation.
+- Do not only describe the tests. Write the actual code.
+
+Important: The test must simulate REAL user experience, not just technical clicks.
+
+The agent should behave like real people using pretix:
+
+REAL USER SIMULATION REQUIREMENTS:
+1. Use realistic names, emails, phone numbers, event titles, ticket names, and locations.
+2. Move through the app like a human:
+   - wait for pages to load
+   - verify visible text
+   - avoid instant blind clicking
+   - take screenshots at major milestones
+3. Test the emotional/user experience:
+   - Is the page understandable?
+   - Is the next action obvious?
+   - Are payment instructions clear?
+   - Is the ticket confirmation easy to understand?
+   - Is the QR/ticket easy to find?
+4. Record friction points:
+   - too many fields
+   - confusing labels
+   - hidden buttons
+   - unclear checkout steps
+   - missing confirmation
+   - slow page
+5. Test from different roles:
+   - first-time customer
+   - returning customer
+   - non-technical organizer
+   - gate/check-in staff under pressure
+6. Test mobile experience:
+   - customer buying ticket on phone viewport
+   - organizer checking ticket on phone viewport
+   - check-in staff scanning/searching attendee
+7. Generate a UX report after the test:
+   - what worked smoothly
+   - what felt confusing
+   - where users may abandon
+   - what should be simplified
+   - screenshots of important steps
+8. Use Playwright tracing/video/screenshot when possible.
+9. The final output should include:
+   - automated Playwright test script
+   - UX testing checklist
+   - generated UX report template
+   - list of improvement recommendations
+
+The test should answer this question:
+“Can a normal Ethiopian event organizer and buyer use this without confusion?”
+
+Create Playwright browser automation that tests pretix like real humans, not just software. It should test admin, organizer, buyer, and check-in workflows, while also reporting usability problems, confusion points, mobile issues, and where users may abandon the process.

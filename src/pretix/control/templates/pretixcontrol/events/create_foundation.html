@@ -1,0 +1,50 @@
+{% extends "pretixcontrol/events/create_base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% block form %}
+    {% bootstrap_field form.organizer layout="horizontal" %}
+    <div class="form-group">
+        <label class="col-md-3 control-label">{% trans "Kind of event" %}</label>
+        <div class="col-md-9">
+            <div class="big-radio radio">
+                <label>
+                    <input type="radio" value="" name="{{ form.has_subevents.html_name }}" {% if not form.has_subevents.value %}checked{% endif %}>
+                    <span class="fa fa-calendar-o"></span>
+                    <strong>{% trans "One event" %}</strong><br>
+                    <div class="help-block">
+                        {% blocktrans trimmed %}
+                            Use this for one concert, class, meeting, or ticket shop.
+                        {% endblocktrans %}
+                    </div>
+                    <div class="help-block">
+                        {% blocktrans trimmed %}
+                            Example: a concert in Addis Ababa, a workshop, or a school event.
+                        {% endblocktrans %}
+                    </div>
+                </label>
+            </div>
+            <div class="big-radio radio">
+                <label>
+                    <input type="radio" value="on" name="{{ form.has_subevents.html_name }}" {% if form.has_subevents.value %}checked{% endif %}>
+                    <span class="fa fa-calendar"></span>
+                    <strong>{% trans "Many dates" %}</strong>
+                    <div class="help-block">
+                        {% blocktrans trimmed %}
+                            Use this when the same event happens many times.
+                        {% endblocktrans %}
+                    </div>
+                    <div class="help-block">
+                        {% blocktrans trimmed %}
+                            Example: a weekly class, a tour, or the same show on many days.
+                        {% endblocktrans %}
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+    {% bootstrap_field form.locales layout="horizontal" %}
+    <p>
+        <span class="fa fa-info-circle"></span>
+        {% trans "You can delete the event only before the first order is made." %}
+    </p>
+{% endblock %}

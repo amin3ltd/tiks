@@ -1,0 +1,59 @@
+{% extends "pretixcontrol/global_settings_base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block inner %}
+    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+
+        <div class="settings-section">
+            <h2>{% trans "Essentials" %}</h2>
+            <p class="text-muted">
+                {% trans "These defaults shape the customer experience across the whole system." %}
+            </p>
+            {% bootstrap_field form.region layout='control' %}
+            {% bootstrap_field form.banner_message layout='control' %}
+            {% bootstrap_field form.banner_message_detail layout='control' %}
+        </div>
+
+        <details class="settings-section" open>
+            <summary>
+                <h2>{% trans "Footer and trust" %}</h2>
+                <span>{% trans "Links and short messages shown across the public ticket shop." %}</span>
+            </summary>
+            {% bootstrap_field form.footer_text layout='control' %}
+            {% bootstrap_field form.footer_link layout='control' %}
+        </details>
+
+        <details class="settings-section">
+            <summary>
+                <h2>{% trans "Maps and location" %}</h2>
+                <span>{% trans "Only needed if you show maps or use geocoding." %}</span>
+            </summary>
+            {% bootstrap_field form.opencagedata_apikey layout='control' %}
+            {% bootstrap_field form.mapquest_apikey layout='control' %}
+            {% bootstrap_field form.leaflet_tiles layout='control' %}
+            {% bootstrap_field form.leaflet_tiles_attribution layout='control' %}
+        </details>
+
+        <details class="settings-section">
+            <summary>
+                <h2>{% trans "Advanced integrations" %}</h2>
+                <span>{% trans "Technical settings most installations can leave unchanged." %}</span>
+            </summary>
+            {% bootstrap_field form.apple_domain_association layout='control' %}
+            {% for field in form.visible_fields %}
+                {% if field.name != "region" and field.name != "banner_message" and field.name != "banner_message_detail" and field.name != "footer_text" and field.name != "footer_link" and field.name != "opencagedata_apikey" and field.name != "mapquest_apikey" and field.name != "leaflet_tiles" and field.name != "leaflet_tiles_attribution" and field.name != "apple_domain_association" %}
+                    {% bootstrap_field field layout='control' %}
+                {% endif %}
+            {% endfor %}
+        </details>
+
+        <div class="form-group submit-group">
+            <button type="submit" class="btn btn-primary btn-save">
+                {% trans "Save" %}
+            </button>
+        </div>
+    </form>
+{% endblock %}
