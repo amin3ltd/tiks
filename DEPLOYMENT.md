@@ -37,6 +37,20 @@ If you use HTTPS instead of SSH:
 git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
 ```
 
+If `git push` says `src refspec main does not match any`, you have not created the first commit yet. Run:
+
+```bash
+git add .
+git commit -m "Initial tiks deployment-ready project"
+git push -u origin main
+```
+
+Before pushing, you can verify the repository contains the expected deployment and frontend files:
+
+```bash
+make repo-check
+```
+
 ## 2. Prepare the VPS
 
 Install Docker and the Docker Compose plugin on the VPS. On Ubuntu:
@@ -79,6 +93,15 @@ Clone the repository on the VPS:
 git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
 cd YOUR_REPO
 ```
+
+Check that the clone contains the expected root files:
+
+```bash
+ls Makefile package.json docker-compose.production.yml
+make repo-check
+```
+
+The root `package.json` is a command wrapper. The actual frontend dependencies are in `src/pretix/static/npm_dir/package.json` and `src/pretix/static/npm_dir/package-lock.json`.
 
 Create the production env file:
 

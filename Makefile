@@ -7,7 +7,7 @@ PRODUCTION_CONFIG ?= .tiks/production.cfg
 VENV_PYTHON ?= .venv/bin/python
 VENV_GUNICORN ?= .venv/bin/gunicorn
 
-.PHONY: install install-quick install-custom install-venv install-production run-local run-production migrate-local migrate-production shell-local createsuperuser-local doctor docker-install docker-start docker-stop docker-restart docker-logs docker-shell docker-createsuperuser docker-migrate docker-rebuild prod-init prod-config prod-build prod-start prod-stop prod-logs prod-shell prod-createsuperuser prod-migrate
+.PHONY: install install-quick install-custom install-venv install-production run-local run-production migrate-local migrate-production shell-local createsuperuser-local doctor repo-check docker-install docker-start docker-stop docker-restart docker-logs docker-shell docker-createsuperuser docker-migrate docker-rebuild prod-init prod-config prod-build prod-start prod-stop prod-logs prod-shell prod-createsuperuser prod-migrate
 
 install: install-quick
 
@@ -82,6 +82,9 @@ doctor:
 	@echo "Host Python:"
 	@python3 --version || true
 	@if command -v python3.11 >/dev/null 2>&1; then python3.11 --version; else echo "python3.11: not found"; fi
+	@echo "Node.js and npm:"
+	@node --version || true
+	@npm --version || true
 	@echo "Docker:"
 	@docker --version || true
 	@$(COMPOSE) version || true
@@ -89,6 +92,9 @@ doctor:
 	@echo "Run 'make install' for a quick local SQLite setup."
 	@echo "Run 'make install-custom' if you want PostgreSQL or custom settings."
 	@echo "The venv installer requires Python 3.11. Docker remains available as a fallback."
+
+repo-check:
+	python3 scripts/check_repo_ready.py
 
 prod-init:
 	@test -f .env.production || cp .env.production.example .env.production

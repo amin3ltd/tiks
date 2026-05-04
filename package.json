@@ -1,0 +1,24 @@
+{
+  "name": "tiks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "tiks ticketing system deployment and frontend command wrapper",
+  "scripts": {
+    "install:local": "make install",
+    "run:local": "make run-local",
+    "install:production": "make install-production",
+    "run:production": "make run-production",
+    "frontend:install": "make -C src npminstall",
+    "frontend:build": "make -C src production",
+    "frontend:compress": "make -C src compress",
+    "docs:preview": "npm --prefix docs run preview",
+    "docker:config": "docker compose config",
+    "docker:production:config": "docker compose -f docker-compose.production.yml config",
+    "docker:production:build": "docker compose -f docker-compose.production.yml build",
+    "repo:check": "python3 scripts/check_repo_ready.py"
+  },
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  }
+}

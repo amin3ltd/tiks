@@ -34,6 +34,12 @@ make doctor
 make install
 ```
 
+Check that the repository contains the files needed for install, frontend build, Docker, documentation, and VPS deployment:
+
+```bash
+make repo-check
+```
+
 If Python 3.11 is installed, `make install` uses the quick virtualenv installer with SQLite defaults. If only Python 3.13 is available, it automatically falls back to Docker so you can still test locally.
 
 To use the guided installer for PostgreSQL, a custom site URL, or admin-user creation during setup:
@@ -122,13 +128,62 @@ The production installer will:
 - optionally build production assets
 - ask whether to create an admin user
 
+For production asset builds, the server needs Node.js and npm. The frontend package files live at `src/pretix/static/npm_dir/package.json` and `src/pretix/static/npm_dir/package-lock.json`. You can also run the frontend build from the repository root with:
+
+```bash
+npm run frontend:build
+```
+
 Start the production app process:
 
 ```bash
 make run-production
 ```
 
-This binds Gunicorn to `127.0.0.1:8000`. Put HTTPS in front of it with Caddy, Nginx, or another reverse proxy for `tiks.cc`.
+This binds Gunicorn to `127.0.0.1:8000`. This command is useful for a quick smoke test, but it stays attached to your terminal. For a VPS, run it through systemd and put HTTPS in front of it with Caddy.
+
+### Production Venv With systemd and Caddy
+
+If the project lives at `/root/tiks`, install the included systemd units:
+
+```bash
+sudo cp deployment/systemd/tiks.service /etc/systemd/system/tiks.service
+sudo cp deployment/systemd/tiks-periodic.service /etc/systemd/system/tiks-periodic.service
+sudo cp deployment/systemd/tiks-periodic.timer /etc/systemd/system/tiks-periodic.timer
+sudo systemctl daemon-reload
+sudo systemctl enable --now tiks
+sudo systemctl enable --now tiks-periodic.timer
+```
+
+Check the app:
+
+```bash
+sudo systemctl status tiks
+sudo journalctl -u tiks -f
+```
+
+Install Caddy and use it as the HTTPS reverse proxy:
+
+```bash
+sudo apt update
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install -y caddy
+sudo cp deployment/caddy/Caddyfile.venv /etc/caddy/Caddyfile
+sudo systemctl reload caddy
+```
+
+Before reloading Caddy, edit `/etc/caddy/Caddyfile` if your domain or email is not `tiks.cc` / `admin@tiks.cc`.
+
+Open:
+
+```text
+https://tiks.cc/control/
+```
+
+If you cloned the project somewhere other than `/root/tiks`, edit the `WorkingDirectory`, `Environment`, and `ExecStart` paths in the systemd service files before copying them.
 
 ## Docker Alternative
 

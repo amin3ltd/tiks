@@ -1,0 +1,18 @@
+[Unit]
+Description=tiks Gunicorn web service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/root/tiks
+Environment=PRETIX_CONFIG_FILE=/root/tiks/.tiks/production.cfg
+ExecStart=/root/tiks/.venv/bin/gunicorn pretix.wsgi --bind 127.0.0.1:8000 --workers 3 --max-requests 1200 --max-requests-jitter 50
+Restart=always
+RestartSec=5
+KillSignal=SIGQUIT
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run tiks periodic background jobs every five minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Unit=tiks-periodic.service
+
+[Install]
+WantedBy=timers.target
