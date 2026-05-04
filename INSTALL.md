@@ -134,6 +134,15 @@ For production asset builds, the server needs Node.js and npm. The frontend pack
 npm run frontend:build
 ```
 
+If asset building fails with `Rollup not installed or pretix not built properly`, install the frontend dependencies and rebuild assets:
+
+```bash
+cd /root/tiks/src
+make npminstall
+cd /root/tiks
+PRETIX_CONFIG_FILE=.tiks/production.cfg .venv/bin/python -m pretix rebuild
+```
+
 Start the production app process:
 
 ```bash

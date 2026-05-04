@@ -354,6 +354,7 @@ def prepare_assets(venv_python, config_path, mode):
         print("Skipping production asset build because npm was not found.")
         return
     if ask_bool("Build production static assets now?", True):
+        run(["make", "npminstall"], cwd=ROOT / "src")
         run([venv_python, "-m", "pretix", "rebuild"], env=app_env(config_path))
 
 
