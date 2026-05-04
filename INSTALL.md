@@ -143,6 +143,20 @@ cd /root/tiks
 PRETIX_CONFIG_FILE=.tiks/production.cfg .venv/bin/python -m pretix rebuild
 ```
 
+After production assets are built, publish static files outside `/root` so Caddy can read them safely:
+
+```bash
+make publish-production-static
+```
+
+This runs the equivalent of:
+
+```bash
+sudo mkdir -p /var/www/tiks/static
+sudo cp -a /root/tiks/src/pretix/static.dist/. /var/www/tiks/static/
+sudo chown -R www-data:www-data /var/www/tiks
+```
+
 Start the production app process:
 
 ```bash
@@ -180,11 +194,12 @@ curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --d
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
 sudo apt update
 sudo apt install -y caddy
+sudo make publish-production-static
 sudo cp deployment/caddy/Caddyfile.venv /etc/caddy/Caddyfile
 sudo systemctl reload caddy
 ```
 
-Before reloading Caddy, edit `/etc/caddy/Caddyfile` if your domain or email is not `tiks.cc` / `admin@tiks.cc`.
+Before reloading Caddy, edit `/etc/caddy/Caddyfile` if your domain or email is not `tiks.cc` / `admin@tiks.cc`. The included venv Caddyfile serves `/static/*` from `/var/www/tiks/static` and proxies the rest to Gunicorn on `127.0.0.1:8000`.
 
 Open:
 

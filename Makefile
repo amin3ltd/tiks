@@ -6,8 +6,9 @@ LOCAL_CONFIG ?= .tiks/local.cfg
 PRODUCTION_CONFIG ?= .tiks/production.cfg
 VENV_PYTHON ?= .venv/bin/python
 VENV_GUNICORN ?= .venv/bin/gunicorn
+PRODUCTION_STATIC_DIR ?= /var/www/tiks/static
 
-.PHONY: install install-quick install-custom install-venv install-production run-local run-production migrate-local migrate-production shell-local createsuperuser-local doctor repo-check docker-install docker-start docker-stop docker-restart docker-logs docker-shell docker-createsuperuser docker-migrate docker-rebuild prod-init prod-config prod-build prod-start prod-stop prod-logs prod-shell prod-createsuperuser prod-migrate
+.PHONY: install install-quick install-custom install-venv install-production publish-production-static run-local run-production migrate-local migrate-production shell-local createsuperuser-local doctor repo-check docker-install docker-start docker-stop docker-restart docker-logs docker-shell docker-createsuperuser docker-migrate docker-rebuild prod-init prod-config prod-build prod-start prod-stop prod-logs prod-shell prod-createsuperuser prod-migrate
 
 install: install-quick
 
@@ -30,6 +31,12 @@ install-venv:
 
 install-production:
 	python3 scripts/install.py --mode production
+
+publish-production-static:
+	@test -d src/pretix/static.dist || (echo "Missing src/pretix/static.dist. Run make install-production or PRETIX_CONFIG_FILE=$(PRODUCTION_CONFIG) $(VENV_PYTHON) -m pretix rebuild first."; exit 1)
+	sudo mkdir -p $(PRODUCTION_STATIC_DIR)
+	sudo cp -a src/pretix/static.dist/. $(PRODUCTION_STATIC_DIR)/
+	sudo chown -R www-data:www-data /var/www/tiks
 
 run-local:
 	PRETIX_CONFIG_FILE=$(LOCAL_CONFIG) $(VENV_PYTHON) -m pretix runserver 0.0.0.0:8000

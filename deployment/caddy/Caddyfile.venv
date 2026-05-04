@@ -4,5 +4,11 @@
 
 tiks.cc, www.tiks.cc {
 	encode gzip zstd
+
+	handle_path /static/* {
+		root * /var/www/tiks/static
+		file_server
+	}
+
 	reverse_proxy 127.0.0.1:8000
 }
